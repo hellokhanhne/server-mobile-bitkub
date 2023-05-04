@@ -1,0 +1,64 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BitkubNext OAuth</title>
+  <style>
+    .container {
+      height: 100vh;
+      background: radial-gradient(155.63% 58.67% at 43.61% 91.01%, rgba(22, 37, 50, 0.61) 0, rgba(22, 37, 50, 0) 100%),
+        radial-gradient(83.82% 41.39% at 98.06% 16.84%, rgba(50, 136, 36, 0.13) 0,
+          rgba(50, 136, 36, 0) 100%), radial-gradient(57.03% 28.16% at 9.86% 30.63%,
+          rgba(19, 135, 80, 0.15) 0, rgba(19, 135, 80, 0) 100%),
+        radial-gradient(57.08% 29.61% at 97.36% 64.49%, rgba(83, 68, 85, 0.39) 0,
+          rgba(69, 63, 84, 0) 100%), radial-gradient(110.98% 41.91% at 21.53% 9.36%,
+          #373a43 0, #2b2d33 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body class="container">
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <lottie-player src="/ic_loading.json" background="transparent" speed="1"
+    style="width: 30%; height: 30%;min-width: 300px; min-width: 300px;" loop autoplay></lottie-player>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"
+    integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code =
+      params.get('code');
+    setTimeout(async () => {
+      const formdata = new FormData();
+      formdata.append("grant_type", "authorization_code");
+      formdata.append("client_id", "644b72ef3ddbd07f0a082517");
+      formdata.append(
+        "redirect_uri", "https://testwalletbitkup.website/oauth/bitkub-next");
+      formdata.append("code", code);
+      try {
+        const response = await axios.post("https://accounts.bitkubnext.com/oauth2/access_token",
+          {
+            grant_type: "authorization_code",
+            client_id: "644b72ef3ddbd07f0a082517",
+            redirect_uri: "https://testwalletbitkup.website/oauth/bitkub-next",
+            code
+          }, {
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+          }
+        });
+        location.href = `uniwebview://auth?access_token=${response.data.access_token}&refresh_token=${response.data.refresh_token}`;
+      } catch (error) {
+        console.error(error.response.data);
+        location.href = `uniwebview://autherror?error=${JSON.stringify(error.response.data)}`;
+      }
+    })
+  </script>
+</body>
+
+</html>

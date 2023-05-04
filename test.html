@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.io Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+  </head>
+  <body>
+    <h1>Socket.io Test</h1>
+    <script>
+      const socket = io.connect();
+      socket.on('connect', () => {
+        console.log('Connected to socket.io server');
+        socket.emit('joinRoom', 12345); // Replace with your deviceId
+      });
+      socket.on('userInfo', (data) => {
+        console.log('Received userInfo', data);
+      });
+    </script>
+  </body>
+</html>
